@@ -1,715 +1,643 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AYNI Admin — Panel de Administración</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
-    <style>
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Nunito',sans-serif;color:#3d3829;background:#faf9f6;line-height:1.6;min-height:100vh}
-        a{text-decoration:none;color:inherit}
-        :root{
-            --primary:#5a8f7b;--primary-light:#7ab89e;--secondary:#c4a35a;--accent:#a8d5ba;
-            --gold:#c4a35a;--gold-light:#d4b76a;--green-dark:#5a8f7b;--green:#7ab89e;--green-light:#a8d5ba;
-            --white:#fff;--bg:#faf9f6;
-            --g50:#faf9f6;--g100:#f0ede6;--g200:#e2ddd2;--g400:#9a917e;--g600:#6b6355;--g800:#3d3829;
-            --shadow:0 4px 14px rgba(90,143,123,.08);--shadow-lg:0 10px 30px rgba(90,143,123,.12);--radius:16px;
-            --danger:#c53030;--danger-light:#fc8181;
-        }
+  <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=153a7b56-1831-46d8-8867-7897bf54a3ec
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AYNI Admin — Panel de Administración</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Nunito',sans-serif;color:var(--g800);background:var(--bg);line-height:1.6;min-height:100vh;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
 
-        /* Header */
-        .header{background:var(--white);box-shadow:0 1px 3px rgba(90,143,123,.06);border-bottom:2px solid var(--gold);padding:1rem 1.5rem;position:sticky;top:0;z-index:100}
-        .header__inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
-        .header__brand{display:flex;align-items:center;gap:.75rem}
-        .header__logo{width:40px;height:40px;object-fit:contain}
-        .header__title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;color:var(--green-dark)}
-        .header__subtitle{font-size:.65rem;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:1px}
-        .header__actions{display:flex;gap:.75rem}
-        .btn{padding:.6rem 1.2rem;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s;border:none;display:inline-flex;align-items:center;gap:.4rem}
-        .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-        .btn--primary{background:var(--green);color:#fff}.btn--primary:hover{background:var(--green-light)}
-        .btn--secondary{background:var(--gold);color:#fff}.btn--secondary:hover{background:var(--gold-light)}
-        .btn--danger{background:var(--danger);color:#fff}.btn--danger:hover{background:var(--danger-light)}
-        .btn--ghost{background:transparent;color:var(--g600);border:1.5px solid var(--g200)}.btn--ghost:hover{border-color:var(--gold);color:var(--green-dark)}
-        .btn--sm{padding:.4rem .8rem;font-size:.7rem}
+    :root{
+      --gold:#c4a35a;--gold-light:#d4b76a;--green-dark:#5a8f7b;--green:#7ab89e;--green-light:#a8d5ba;
+      --white:#fff;--bg:#faf9f6;--g50:#faf9f6;--g100:#f0ede6;--g200:#e2ddd2;--g400:#9a917e;--g600:#6b6355;--g800:#3d3829;
+      --shadow:0 4px 14px rgba(90,143,123,.08);--shadow-lg:0 10px 30px rgba(90,143,123,.12);--radius:16px;--danger:#c53030;--danger-light:#fc8181;
+    }
+    [data-theme="dark"]{
+      --white:#1a1a2e;--bg:#0f0f23;--g50:#1a1a2e;--g100:#16213e;--g200:#1f3460;--g400:#8892b0;--g600:#a8b2d1;--g800:#e6f1ff;
+      --shadow:0 4px 14px rgba(0,0,0,.3);--shadow-lg:0 10px 30px rgba(0,0,0,.4);
+    }
 
-        /* Layout */
-        .layout{max-width:1200px;margin:0 auto;padding:1.5rem}
-        .layout__grid{display:grid;grid-template-columns:1fr 350px;gap:1.5rem;align-items:start}
+    .header{background:var(--white);box-shadow:0 1px 3px rgba(90,143,123,.06);border-bottom:2px solid var(--gold);padding:1rem 1.5rem;position:sticky;top:0;z-index:100;transition:background .3s}
+    .header__inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+    .header__brand{display:flex;align-items:center;gap:.75rem}
+    .header__logo{width:40px;height:40px;object-fit:contain}
+    .header__title{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;color:var(--green-dark)}
+    .header__subtitle{font-size:.65rem;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+    .header__actions{display:flex;gap:.75rem;align-items:center}
 
-        /* Stats */
-        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
-        .stat-card{background:var(--white);border-radius:var(--radius);padding:1.25rem;text-align:center;border:1px solid var(--g100);box-shadow:var(--shadow)}
-        .stat-card__value{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:800;color:var(--green-dark);line-height:1}
-        .stat-card__label{font-size:.75rem;color:var(--g400);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:.25rem}
+    .theme-toggle{background:var(--g100);border:1.5px solid var(--g200);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:.3s}
+    .theme-toggle:hover{border-color:var(--gold);transform:scale(1.1)}
 
-        /* Book List */
-        .book-list{background:var(--white);border-radius:var(--radius);border:1px solid var(--g100);box-shadow:var(--shadow);overflow:hidden}
-        .book-list__header{padding:1rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
-        .book-list__title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--green-dark)}
-        .book-list__search{position:relative}
-        .book-list__search input{padding:.5rem .75rem .5rem 2rem;border:1.5px solid var(--g200);border-radius:50px;font-size:.8rem;width:200px;transition:.2s}
-        .book-list__search input:focus{outline:none;border-color:var(--gold)}
-        .book-list__search-icon{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--g400)}
-        .book-list__items{max-height:500px;overflow-y:auto}
-        .book-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.25rem;border-bottom:1px solid var(--g100);transition:.2s;cursor:pointer}
-        .book-item:hover{background:var(--g50)}
-        .book-item:last-child{border-bottom:none}
-        .book-item__emoji{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-        .book-item__info{flex:1;min-width:0}
-        .book-item__title{font-weight:700;font-size:.85rem;color:var(--g800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .book-item__meta{font-size:.7rem;color:var(--g400);display:flex;gap:.5rem;align-items:center}
-        .book-item__level{padding:.1rem .4rem;border-radius:50px;font-size:.6rem;font-weight:700;text-transform:uppercase}
-        .book-item__actions{display:flex;gap:.25rem}
-        .book-item__actions .btn{padding:.35rem .6rem;font-size:.7rem}
+    .lock{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#5a8f7b,#7ab89e);padding:1.5rem}
+    .lock__card{background:var(--white);border-radius:20px;padding:2rem 1.75rem;width:100%;max-width:340px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+    .lock__icon{font-size:2.4rem;margin-bottom:.5rem}
+    .lock__title{font-family:'Quicksand',sans-serif;font-size:1.15rem;font-weight:800;color:var(--green-dark);margin-bottom:.25rem}
+    .lock__sub{font-size:.78rem;color:var(--g400);margin-bottom:1.25rem}
+    .lock__input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--g200);border-radius:50px;text-align:center;font-size:1rem;letter-spacing:.4em;font-family:'Nunito',sans-serif;background:var(--g50);color:var(--g800);margin-bottom:.75rem}
+    .lock__input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,163,90,.15)}
+    .lock__btn{width:100%;padding:.75rem;border:none;border-radius:50px;background:var(--green);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;cursor:pointer;transition:.2s}
+    .lock__btn:hover{background:var(--green-light)}
+    .lock__error{color:var(--danger);font-size:.75rem;font-weight:700;margin-top:.6rem;min-height:1rem}
+    .lock--hidden{display:none}
 
-        /* Form Panel */
-        .panel{background:var(--white);border-radius:var(--radius);border:1px solid var(--g100);box-shadow:var(--shadow);position:sticky;top:80px}
-        .panel__header{padding:1rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
-        .panel__title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--green-dark)}
-        .panel__body{padding:1.25rem}
-        .form-group{margin-bottom:1rem}
-        .form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--g600);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.5px}
-        .form-group input,.form-group select,.form-group textarea{width:100%;padding:.6rem .8rem;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.85rem;transition:.2s;color:var(--g800)}
-        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,163,90,.1)}
-        .form-group textarea{resize:vertical;min-height:80px}
-        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-        .form-row--3{grid-template-columns:1fr 1fr 1fr}
-        .form-group .checkbox-group{display:flex;gap:.5rem;flex-wrap:wrap}
-        .form-group .checkbox-label{display:flex;align-items:center;gap:.3rem;font-size:.8rem;cursor:pointer;padding:.3rem .6rem;border-radius:50px;border:1.5px solid var(--g200);transition:.2s}
-        .form-group .checkbox-label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}
-        .form-group .checkbox-label input{display:none}
-        .form-actions{display:flex;gap:.5rem;margin-top:1.25rem}
-        .form-actions .btn{flex:1}
+    .btn{padding:.6rem 1.2rem;border-radius:50px;font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:.2s;border:none;display:inline-flex;align-items:center;gap:.4rem}
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .btn--primary{background:var(--green);color:#fff}.btn--primary:hover{background:var(--green-light)}
+    .btn--danger{background:var(--danger);color:#fff}.btn--danger:hover{background:var(--danger-light)}
+    .btn--ghost{background:transparent;color:var(--g600);border:1.5px solid var(--g200)}.btn--ghost:hover{border-color:var(--gold);color:var(--green-dark)}
+    .btn--sm{padding:.4rem .8rem;font-size:.7rem}
 
-        /* Image Upload */
-        .image-upload{position:relative;border:2px dashed var(--g200);border-radius:12px;cursor:pointer;transition:.2s;overflow:hidden}
-        .image-upload:hover{border-color:var(--gold);background:var(--g50)}
-        .image-upload__preview{padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;min-height:120px;justify-content:center}
-        .image-upload__preview img{max-width:100%;max-height:150px;border-radius:8px;object-fit:contain}
-        .image-upload__icon{font-size:2rem;color:var(--g400)}
-        .image-upload__text{font-size:.8rem;color:var(--g400);font-weight:600}
-        .image-upload__hint{color:#276749;font-weight:600;margin-top:.35rem;display:block}
-        .image-upload--loading{opacity:.6;pointer-events:none}
+    .layout{max-width:1200px;margin:0 auto;padding:1.5rem}
+    .layout__grid{display:grid;grid-template-columns:1fr 350px;gap:1.5rem;align-items:start}
 
-        /* Level Colors */
-        .level-a1{background:#c6f6d5;color:#276749}
-        .level-a2{background:#bee3f8;color:#2b6cb0}
-        .level-b1{background:#fefcbf;color:#975a16}
-        .level-b2{background:#fed7e2;color:#97266d}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+    .stat-card{background:var(--white);border-radius:var(--radius);padding:1.25rem;text-align:center;border:1px solid var(--g100);box-shadow:var(--shadow);transition:background .3s}
+    .stat-card__value{font-family:'Quicksand',sans-serif;font-size:2rem;font-weight:800;color:var(--green-dark);line-height:1}
+    .stat-card__label{font-size:.75rem;color:var(--g400);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:.25rem}
 
-        /* Toast */
-        .toast{position:fixed;bottom:2rem;right:2rem;background:var(--green-dark);color:#fff;padding:.75rem 1.25rem;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow-lg);transform:translateY(100px);opacity:0;transition:.3s;z-index:1000}
-        .toast.show{transform:translateY(0);opacity:1}
+    .book-list{background:var(--white);border-radius:var(--radius);border:1px solid var(--g100);box-shadow:var(--shadow);overflow:hidden;transition:background .3s}
+    .book-list__header{padding:1rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+    .book-list__title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--green-dark)}
+    .book-list__search{position:relative}
+    .book-list__search input{padding:.5rem .75rem .5rem 2rem;border:1.5px solid var(--g200);border-radius:50px;font-size:.8rem;width:200px;transition:.2s;background:var(--g50);color:var(--g800)}
+    .book-list__search input:focus{outline:none;border-color:var(--gold)}
+    .book-list__search-icon{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--g400)}
+    .book-list__items{max-height:500px;overflow-y:auto}
+    .book-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.25rem;border-bottom:1px solid var(--g100);transition:.2s;cursor:pointer}
+    .book-item:hover{background:var(--g50)}.book-item:last-child{border-bottom:none}
+    .book-item__emoji{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;overflow:hidden}
+    .book-item__emoji img{width:100%;height:100%;object-fit:cover}
+    .book-item__info{flex:1;min-width:0}
+    .book-item__title{font-weight:700;font-size:.85rem;color:var(--g800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .book-item__meta{font-size:.7rem;color:var(--g400);display:flex;gap:.5rem;align-items:center}
+    .book-item__level{padding:.1rem .4rem;border-radius:50px;font-size:.6rem;font-weight:700;text-transform:uppercase}
+    .book-item__actions{display:flex;gap:.25rem}.book-item__actions .btn{padding:.35rem .6rem;font-size:.7rem}
 
-        /* Modal */
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1.5rem}
-        .modal-overlay.active{display:flex}
-        .modal{background:var(--white);border-radius:var(--radius);max-width:400px;width:100%;padding:1.5rem;text-align:center;animation:modalIn .3s ease}
-        @keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-        .modal__icon{font-size:3rem;margin-bottom:.75rem}
-        .modal__title{font-family:'Quicksand',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green-dark);margin-bottom:.5rem}
-        .modal__text{font-size:.9rem;color:var(--g600);margin-bottom:1.25rem}
-        .modal__actions{display:flex;gap:.5rem;justify-content:center}
+    .panel{background:var(--white);border-radius:var(--radius);border:1px solid var(--g100);box-shadow:var(--shadow);position:sticky;top:80px;transition:background .3s}
+    .panel__header{padding:1rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;justify-content:space-between;align-items:center}
+    .panel__title{font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--green-dark)}
+    .panel__body{padding:1.25rem}
+    .publish-note{background:rgba(196,163,90,.12);border:1px solid rgba(196,163,90,.35);color:var(--g600);font-size:.78rem;line-height:1.45;padding:.7rem .85rem;border-radius:10px;margin-bottom:1rem}
+    .publish-note strong{color:var(--green-dark)}
+    .publish-note code{background:rgba(0,0,0,.06);padding:.05rem .3rem;border-radius:4px;font-size:.75rem}
+    .form-group{margin-bottom:1rem}
+    .form-group label{display:block;font-size:.75rem;font-weight:700;color:var(--g600);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.5px}
+    .form-group input,.form-group select,.form-group textarea{width:100%;padding:.6rem .8rem;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.85rem;transition:.2s;color:var(--g800);background:var(--g50)}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(196,163,90,.1)}
+    .form-group textarea{resize:vertical;min-height:80px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+    .form-group .checkbox-group{display:flex;gap:.5rem;flex-wrap:wrap}
+    .form-group .checkbox-label{display:flex;align-items:center;gap:.3rem;font-size:.8rem;cursor:pointer;padding:.3rem .6rem;border-radius:50px;border:1.5px solid var(--g200);transition:.2s}
+    .form-group .checkbox-label:has(input:checked){background:var(--green);color:#fff;border-color:var(--green)}
+    .form-group .checkbox-label input{display:none}
+    .form-actions{display:flex;gap:.5rem;margin-top:1.25rem}.form-actions .btn{flex:1}
 
-        /* Empty State */
-        .empty{text-align:center;padding:3rem;color:var(--g400)}
-        .empty__icon{font-size:3rem;margin-bottom:.5rem}
-        .empty__text{font-size:.9rem;font-weight:600}
+    .image-upload{position:relative;border:2px dashed var(--g200);border-radius:12px;cursor:pointer;transition:.2s;overflow:hidden}
+    .image-upload:hover{border-color:var(--gold);background:var(--g50)}
+    .image-upload__preview{padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;min-height:120px;justify-content:center}
+    .image-upload__preview img{max-width:100%;max-height:150px;border-radius:8px;object-fit:contain}
+    .image-upload__icon{font-size:2rem;color:var(--g400)}
+    .image-upload__text{font-size:.8rem;color:var(--g400);font-weight:600}
+    .image-upload__hint{color:#276749;font-weight:600;margin-top:.35rem;display:block}
+    .image-upload--loading{opacity:.6;pointer-events:none}
 
-        /* Responsive */
-        @media(max-width:900px){
-            .layout__grid{grid-template-columns:1fr}
-            .panel{position:static}
-            .stats{grid-template-columns:repeat(2,1fr)}
-        }
-        @media(max-width:480px){
-            .stats{grid-template-columns:1fr}
-            .form-row{grid-template-columns:1fr}
-            .form-row--3{grid-template-columns:1fr}
-            .header__actions{width:100%}
-            .header__actions .btn{flex:1}
-        }
-    </style>
+    .level-a1{background:#c6f6d5;color:#276749}.level-a2{background:#bee3f8;color:#2b6cb0}
+    .level-b1{background:#fefcbf;color:#975a16}.level-b2{background:#fed7e2;color:#97266d}
+
+    .toast{position:fixed;bottom:2rem;right:2rem;background:var(--green-dark);color:#fff;padding:.75rem 1.25rem;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow-lg);transform:translateY(100px);opacity:0;transition:.3s;z-index:1000;display:flex;align-items:center;gap:.5rem}
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast--error{background:var(--danger)}.toast--warning{background:var(--gold)}
+
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center;padding:1.5rem}
+    .modal-overlay.active{display:flex}
+    .modal{background:var(--white);border-radius:var(--radius);max-width:400px;width:100%;padding:1.5rem;text-align:center;animation:modalIn .3s ease}
+    @keyframes modalIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal__icon{font-size:3rem;margin-bottom:.75rem}
+    .modal__title{font-family:'Quicksand',sans-serif;font-size:1.2rem;font-weight:700;color:var(--green-dark);margin-bottom:.5rem}
+    .modal__text{font-size:.9rem;color:var(--g600);margin-bottom:1.25rem}
+    .modal__actions{display:flex;gap:.5rem;justify-content:center}
+
+    .empty{text-align:center;padding:3rem;color:var(--g400)}
+    .empty__icon{font-size:3rem;margin-bottom:.5rem}.empty__text{font-size:.9rem;font-weight:600}
+
+    @media(max-width:900px){.layout__grid{grid-template-columns:1fr}.panel{position:static}.stats{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.stats{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.header__actions{width:100%}.header__actions .btn{flex:1}}
+    .layout{padding-bottom:5rem}
+  </style>
 </head>
 <body>
+<div class="lock" id="lockScreen">
+  <div class="lock__card">
+    <div class="lock__icon">🔒</div>
+    <div class="lock__title">AYNI Admin</div>
+    <div class="lock__sub">Introduce la contraseña para continuar</div>
+    <div class="lock__input-wrap" style="position:relative;width:100%">
+      <input type="password" class="lock__input" id="lockInput" placeholder="••••••••" autocomplete="current-password" style="padding-right:44px;width:100%">
+      <button type="button" id="togglePass" class="lock__toggle" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;padding:4px;line-height:1" aria-label="Mostrar/ocultar contraseña">👁️</button>
+    </div>
+    <button class="lock__btn" id="lockBtn">Entrar</button>
+    <div class="lock__error" id="lockError"></div>
+  </div>
+</div>
 
 <header class="header">
-    <div class="header__inner">
-        <div class="header__brand">
-            <img src="logo.png" alt="AYNI" class="header__logo">
-            <div>
-                <div class="header__title">AYNI Admin</div>
-                <div class="header__subtitle">Panel de Administración</div>
-            </div>
-        </div>
-        <div class="header__actions">
-            <button class="btn btn--ghost" onclick="exportData()">📥 Exportar</button>
-            <button class="btn btn--ghost" onclick="importData()">📤 Importar</button>
-            <a href="index.html" class="btn btn--primary">🌐 Ver Sitio</a>
-        </div>
+  <div class="header__inner">
+    <div class="header__brand">
+      <img src="logo.png" alt="AYNI" class="header__logo">
+      <div><div class="header__title">AYNI Admin</div><div class="header__subtitle">Panel de Administración</div></div>
     </div>
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle">🌙</button>
+      <button class="btn btn--ghost" id="exportBtn">📥 Exportar</button>
+      <button class="btn btn--ghost" id="importBtn">📤 Importar</button>
+      <button class="btn btn--ghost" id="categoriesBtn">🏷️ Categorías</button>
+      <a class='btn btn--primary' href='/'>🌐 Ver Sitio</a>
+    </div>
+  </div>
 </header>
 
 <div class="layout">
-    <!-- Stats -->
-    <div class="stats" id="stats"></div>
-
-    <div class="layout__grid">
-        <!-- Book List -->
-        <div class="book-list">
-            <div class="book-list__header">
-                <span class="book-list__title">📚 Libros (<span id="bookCount">0</span>)</span>
-                <div class="book-list__search">
-                    <span class="book-list__search-icon">🔍</span>
-                    <input type="text" id="searchInput" placeholder="Buscar...">
-                </div>
-            </div>
-            <div class="book-list__items" id="bookList"></div>
+  <div class="stats" id="stats"></div>
+  <div class="layout__grid">
+    <div class="book-list">
+      <div class="book-list__header">
+        <span class="book-list__title">📚 Libros (<span id="bookCount">0</span>)</span>
+        <div class="book-list__search">
+          <span class="book-list__search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar...">
         </div>
-
-        <!-- Form Panel -->
-        <div class="panel">
-            <div class="panel__header">
-                <span class="panel__title" id="formTitle">➕ Nuevo Libro</span>
-                <button class="btn btn--ghost btn--sm" id="cancelBtn" style="display:none" onclick="resetForm()">Cancelar</button>
-            </div>
-            <div class="panel__body">
-                <form id="bookForm" onsubmit="saveBook(event)">
-                    <input type="hidden" id="bookId">
-
-                    <div class="form-group">
-                        <label>Título</label>
-                        <input type="text" id="title" required placeholder="Título del libro">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Autor</label>
-                        <input type="text" id="author" required placeholder="Nombre del autor">
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Grado</label>
-                            <select id="grade">
-                                <option value="1° Primaria">1° Primaria</option>
-                                <option value="2° Primaria">2° Primaria</option>
-                                <option value="3° Primaria" selected>3° Primaria</option>
-                                <option value="4° Primaria">4° Primaria</option>
-                                <option value="5° Primaria">5° Primaria</option>
-                                <option value="6°">6°</option>
-                                <option value="7°">7°</option>
-                                <option value="8°">8°</option>
-                                <option value="9°">9°</option>
-                                <option value="10°">10°</option>
-                                <option value="11°">11°</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Nivel</label>
-                            <select id="engLevel">
-                                <option value="a1">🟢 A1 - Principiante</option>
-                                <option value="a2">🔵 A2 - Elemental</option>
-                                <option value="b1">🟡 B1 - Intermedio</option>
-                                <option value="b2">🔴 B2 - Intermedio Alto</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Páginas</label>
-                            <input type="number" id="pages" min="1" value="20">
-                        </div>
-                        <div class="form-group">
-                            <label>Categorías</label>
-                            <div class="checkbox-group">
-                                <label class="checkbox-label"><input type="checkbox" name="cat" value="cuento"> 📝 Cuentos</label>
-                                <label class="checkbox-label"><input type="checkbox" name="cat" value="ciencia"> 🔬 Ciencia</label>
-                                <label class="checkbox-label"><input type="checkbox" name="cat" value="historia"> 🏛️ Historia</label>
-                                <label class="checkbox-label"><input type="checkbox" name="cat" value="ingles"> 🇬🇧 Inglés</label>
-                                <label class="checkbox-label"><input type="checkbox" name="cat" value="aventura"> 🗺️ Aventura</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <textarea id="description" placeholder="Breve descripción del libro..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tags (separados por coma)</label>
-                        <input type="text" id="tags" placeholder="Vocabulario, Básico, Ilustrado">
-                    </div>
-
-                    <div class="form-group">
-                        <label>🔗 Link del Libro</label>
-                        <input type="url" id="bookLink" placeholder="https://...">
-                    </div>
-
-                    <div class="form-group">
-                        <label>✏️ Link de Actividades</label>
-                        <input type="url" id="activitiesLink" placeholder="https://...">
-                    </div>
-
-                    <div class="form-group">
-                        <label>🖼️ Portada del Libro</label>
-                        <div class="image-upload" id="imageUpload">
-                            <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
-                            <div class="image-upload__preview" id="imagePreview">
-                                <span class="image-upload__icon">📷</span>
-                                <span class="image-upload__text">Haz clic para subir imagen</span>
-                            </div>
-                        </div>
-                        <input type="hidden" id="bookImage" value="">
-                        <small class="image-upload__hint" id="imageHint" style="display:none">✅ Imagen subida</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="checkbox-label" style="width:fit-content;border-color:var(--gold)">
-                            <input type="checkbox" id="isNew"> ✨ Marcar como Nuevo
-                        </label>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn--primary" id="submitBtn">💾 Guardar Libro</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+      </div>
+      <div class="book-list__items" id="bookList"></div>
     </div>
+    <div class="panel">
+      <div class="panel__header">
+        <span class="panel__title" id="formTitle">➕ Nuevo Libro</span>
+        <button class="btn btn--ghost btn--sm" id="cancelBtn" style="display:none">Cancelar</button>
+      </div>
+      <div class="panel__body">
+        <div class="publish-note">☁️ Los cambios se publican automáticamente: al guardar, el libro y su portada aparecen en el sitio al instante. No necesitas descargar ni reemplazar archivos.</div>
+        <form id="bookForm">
+          <input type="hidden" id="bookId">
+          <div class="form-group"><label>Título *</label><input type="text" id="title" required placeholder="Título del libro"></div>
+          <div class="form-group"><label>Autor *</label><input type="text" id="author" required placeholder="Nombre del autor"></div>
+          <div class="form-row">
+            <div class="form-group"><label>Grado</label><select id="grade"><option>1° Primaria</option><option>2° Primaria</option><option selected>3° Primaria</option><option>4° Primaria</option><option>5° Primaria</option><option>6°</option><option>7°</option><option>8°</option><option>9°</option><option>10°</option><option>11°</option></select></div>
+            <div class="form-group"><label>Nivel</label><select id="engLevel"><option value="a1">🟢 A1 - Principiante</option><option value="a2">🔵 A2 - Elemental</option><option value="b1">🟡 B1 - Intermedio</option><option value="b2">🔴 B2 - Intermedio Alto</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Páginas</label><input type="number" id="pages" min="1" value="20"></div>
+            <div class="form-group"><label>Categorías *</label><div class="checkbox-group"><label class="checkbox-label"><input type="checkbox" name="cat" value="cuento"> 📝 Cuentos</label><label class="checkbox-label"><input type="checkbox" name="cat" value="ciencia"> 🔬 Ciencia</label><label class="checkbox-label"><input type="checkbox" name="cat" value="historia"> 🏛️ Historia</label><label class="checkbox-label"><input type="checkbox" name="cat" value="ingles"> 🇬🇧 Inglés</label><label class="checkbox-label"><input type="checkbox" name="cat" value="aventura"> 🗺️ Aventura</label></div></div>
+          </div>
+          <div class="form-group"><label>Descripción</label><textarea id="description" placeholder="Breve descripción del libro..."></textarea></div>
+          <div class="form-group"><label>Tags (separados por coma)</label><input type="text" id="tags" placeholder="Vocabulario, Básico, Ilustrado"></div>
+          <div class="form-group"><label>🔗 Link del Libro</label><input type="url" id="bookLink" placeholder="https://..."></div>
+          <div class="form-group"><label>✏️ Link de Actividades</label><input type="url" id="activitiesLink" placeholder="https://..."></div>
+          <div class="form-group">
+            <label>🖼️ Portada del Libro</label>
+            <div class="image-upload" id="imageUpload">
+              <input type="file" id="imageInput" accept="image/*" style="display:none">
+              <div class="image-upload__preview" id="imagePreview"><span class="image-upload__icon">📷</span><span class="image-upload__text">Haz clic para subir imagen</span></div>
+            </div>
+            <input type="hidden" id="bookImage" value="">
+            <small class="image-upload__hint" id="imageHint" style="display:none">✅ Imagen subida</small>
+          </div>
+          <div class="form-group"><label class="checkbox-label" style="width:fit-content;border-color:var(--gold)"><input type="checkbox" id="isNew"> ✨ Marcar como Nuevo</label></div>
+          <div class="form-actions"><button type="submit" class="btn btn--primary" id="submitBtn">💾 Guardar Libro</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
-    <div class="modal">
-        <div class="modal__icon">🗑️</div>
-        <div class="modal__title">¿Eliminar libro?</div>
-        <div class="modal__text">Esta acción no se puede deshacer.</div>
-        <div class="modal__actions">
-            <button class="btn btn--ghost" onclick="closeDeleteModal()">Cancelar</button>
-            <button class="btn btn--danger" id="confirmDeleteBtn">Eliminar</button>
-        </div>
+  <div class="modal">
+    <div class="modal__icon">🗑️</div>
+    <div class="modal__title">¿Eliminar libro?</div>
+    <div class="modal__text">Esta acción no se puede deshacer.</div>
+    <div class="modal__actions">
+      <button class="btn btn--ghost" id="cancelDeleteBtn">Cancelar</button>
+      <button class="btn btn--danger" id="confirmDeleteBtn">Eliminar</button>
     </div>
+  </div>
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="categoriesModal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal__header" style="padding:1rem 1.5rem .5rem;justify-content:flex-end;border-bottom:1px solid var(--g100);margin:-1.5rem -1.5rem 1rem">
+      <button class="modal__close" id="categoriesCloseBtn">✕</button>
+    </div>
+    <div class="modal__icon">🏷️</div>
+    <div class="modal__title">Gestionar Categorías</div>
+    <div class="modal__text">Añade, edita o elimina categorías. Los cambios afectan al formulario de libros y a los filtros del sitio público.</div>
+    <div id="categoriesList" style="margin:1rem 0;max-height:300px;overflow-y:auto"></div>
+    <div style="display:flex;gap:.5rem;margin-top:1rem">
+      <input type="text" id="newCategoryInput" placeholder="Nueva categoría (ej: poesia)" style="flex:1;padding:.6rem .8rem;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.85rem">
+      <input type="text" id="newCategoryLabelInput" placeholder="Etiqueta visible (ej: 📜 Poesía)" style="flex:1;padding:.6rem .8rem;border:1.5px solid var(--g200);border-radius:10px;font-family:'Nunito',sans-serif;font-size:.85rem">
+      <button class="btn btn--primary" id="addCategoryBtn" style="padding:.6rem 1rem">Añadir</button>
+    </div>
+    <div class="modal__actions" style="margin-top:1rem">
+      <button class="btn btn--ghost" id="cancelCategoriesBtn">Cerrar</button>
+    </div>
+  </div>
+</div>
 
-<!-- Hidden file input for import -->
-<input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleImport(event)">
+<div class="toast" id="toast"></div>
+<input type="file" id="fileInput" accept=".json" style="display:none">
 
 <script>
-// ═══════════════════════════════════════════
-// DATOS INICIALES (se usan solo la primera vez)
-// ═══════════════════════════════════════════
-const defaultBooks = [
-    {id:1,title:"My First English Words",author:"María López",grade:"3° Primaria",level:"primaria",engLevel:"a1",category:["cuento","ingles"],pages:12,emoji:"🐱",desc:"Un libro ilustrado con las primeras palabras en inglés para los más pequeños.",tags:["Vocabulario","Básico","Ilustrado"],isNew:true,bookLink:"",activitiesLink:""},
-    {id:2,title:"The Solar System Adventure",author:"Carlos Pérez",grade:"5° Primaria",level:"primaria",engLevel:"a2",category:["ciencia","ingles"],pages:18,emoji:"🪐",desc:"Una aventura espacial donde los planetas cuentan sus historias.",tags:["Ciencia","Espacio","Aventura"],isNew:true,bookLink:"",activitiesLink:""},
-    {id:3,title:"Cuentos de la Selva",author:"Ana Martínez",grade:"10°",level:"bachillerato",engLevel:"b1",category:["cuento","aventura"],pages:24,emoji:"🌴",desc:"Tres relatos cortos sobre animales de la selva amazónica.",tags:["Naturaleza","Lectura","Intermedio"],bookLink:"",activitiesLink:""},
-    {id:4,title:"Grammar for Beginners",author:"Laura Rodríguez",grade:"11°",level:"bachillerato",engLevel:"a2",category:["ingles"],pages:30,emoji:"📝",desc:"Guía completa de gramática inglesa para nivel inicial.",tags:["Gramática","Ejercicios","Guía"],isNew:true,bookLink:"",activitiesLink:""},
-    {id:5,title:"Colors and Shapes",author:"Sofía Gómez",grade:"1° Primaria",level:"primaria",engLevel:"a1",category:["ingles","cuento"],pages:10,emoji:"🎨",desc:"Libro de colores y formas con actividades para aprender en inglés.",tags:["Colores","Formas","Primeros pasos"],bookLink:"",activitiesLink:""},
-    {id:6,title:"Colombian Heroes",author:"Diego Herrera",grade:"10°",level:"bachillerato",engLevel:"b1",category:["historia"],pages:20,emoji:"🇨🇴",desc:"Biografías de héroes colombianos escritas en inglés.",tags:["Historia","Colombia","Biografías"],bookLink:"",activitiesLink:""},
-    {id:7,title:"Animal Friends",author:"Valentina Cruz",grade:"2° Primaria",level:"primaria",engLevel:"a1",category:["cuento","ingles"],pages:14,emoji:"🐶",desc:"Historias cortas sobre amistad entre animales.",tags:["Animales","Amistad","Lectura fácil"],bookLink:"",activitiesLink:""},
-    {id:8,title:"Volcanoes and Earthquakes",author:"Andrés Moreno",grade:"11°",level:"bachillerato",engLevel:"b2",category:["ciencia"],pages:22,emoji:"🌋",desc:"Explicación científica de fenómenos naturales en inglés.",tags:["Ciencia","Naturaleza","Técnico"],bookLink:"",activitiesLink:""},
-    {id:9,title:"My Family Album",author:"Camila Torres",grade:"1° Primaria",level:"primaria",engLevel:"a1",category:["ingles"],pages:8,emoji:"👨‍👩‍👧‍👦",desc:"Libro para aprender los miembros de la familia en inglés.",tags:["Familia","Vocabulario","Primeros pasos"],bookLink:"",activitiesLink:""},
-    {id:10,title:"Travel Around the World",author:"Sebastián Ríos",grade:"10°",level:"bachillerato",engLevel:"b1",category:["aventura","ingles"],pages:26,emoji:"✈️",desc:"Un viaje virtual por diferentes países.",tags:["Viajes","Cultura","Geografía"],isNew:true,bookLink:"",activitiesLink:""},
-    {id:11,title:"Math in English",author:"Isabella Vargas",grade:"11°",level:"bachillerato",engLevel:"b2",category:["ciencia","ingles"],pages:16,emoji:"🔢",desc:"Problemas matemáticos resueltos en inglés.",tags:["Matemáticas","Ejercicios","Bilingüe"],bookLink:"",activitiesLink:""},
-    {id:12,title:"The Little Tree",author:"Daniela Ramos",grade:"3° Primaria",level:"primaria",engLevel:"a1",category:["cuento"],pages:15,emoji:"🌳",desc:"Un árbol pequeño que quiere crecer y conocer el mundo.",tags:["Naturaleza","Moraleja","Ilustrado"],bookLink:"",activitiesLink:""}
-];
-
-// ═══════════════════════════════════════════
-// CONFIGURACIÓN DE LA API (JSONBin.io)
-// ═══════════════════════════════════════════
-const API_CONFIG = {
-    url: 'https://api.jsonbin.io/v3/b/6a89b768f5f4af5e293595ac',
-    key: '$2a$10$AnjkXD49PlhpxY3xr.3yg.E63LknLEF1Hjk6BUslsKwAmYmusA6Z2'
+const CFG = {
+  api: { url: 'https://api.jsonbin.io/v3/b/6a89b768f5f4af5e293595ac', key: '$2a$10$AnjkXD49PlhpxY3xr.3yg.E63LknLEF1Hjk6BUslsKwAmYmusA6Z2' },
+  imgbb: { key: 'f8502c5005de9caebd0bac02414d5ed0' }
 };
 
-// Configuración de ImgBB para subir imágenes
-const IMGBB_API_KEY = 'f8502c5005de9caebd0bac02414d5ed0';
+const BOOKS = [
+  {id:1,title:"My First English Words",author:"María López - 3° Primaria",grade:"3° Primaria",level:"primaria",engLevel:"a1",category:["cuento","ingles"],pages:12,emoji:"🐱",desc:"Un libro ilustrado con las primeras palabras en inglés.",tags:["Vocabulario","Básico","Ilustrado"],isNew:true,bookLink:"",activitiesLink:"",image:""},
+  {id:2,title:"The Solar System Adventure",author:"Carlos Pérez - 5° Primaria",grade:"5° Primaria",level:"primaria",engLevel:"a2",category:["ciencia","ingles"],pages:18,emoji:"🪐",desc:"Una aventura espacial donde los planetas cuentan sus historias.",tags:["Ciencia","Espacio","Aventura"],isNew:true,bookLink:"",activitiesLink:"",image:""},
+  {id:3,title:"Cuentos de la Selva",author:"Ana Martínez - 2° Bachillerato",grade:"10°",level:"bachillerato",engLevel:"b1",category:["cuento","aventura"],pages:24,emoji:"🌴",desc:"Tres relatos cortos sobre animales de la selva amazónica.",tags:["Naturaleza","Lectura","Intermedio"],bookLink:"",activitiesLink:"",image:""},
+  {id:4,title:"Grammar for Beginners",author:"Laura Rodríguez - 3° Bachillerato",grade:"11°",level:"bachillerato",engLevel:"a2",category:["ingles"],pages:30,emoji:"📝",desc:"Guía completa de gramática inglesa para nivel inicial.",tags:["Gramática","Ejercicios","Guía"],isNew:true,bookLink:"",activitiesLink:"",image:""},
+  {id:5,title:"Colors and Shapes",author:"Sofía Gómez - 1° Primaria",grade:"1° Primaria",level:"primaria",engLevel:"a1",category:["ingles","cuento"],pages:10,emoji:"🎨",desc:"Libro de colores y formas con actividades para aprender en inglés.",tags:["Colores","Formas","Primeros pasos"],bookLink:"",activitiesLink:"",image:""},
+  {id:6,title:"Colombian Heroes",author:"Diego Herrera - 2° Bachillerato",grade:"10°",level:"bachillerato",engLevel:"b1",category:["historia"],pages:20,emoji:"🇨🇴",desc:"Biografías de héroes colombianos escritas en inglés.",tags:["Historia","Colombia","Biografías"],bookLink:"",activitiesLink:"",image:""},
+  {id:7,title:"Animal Friends",author:"Valentina Cruz - 2° Primaria",grade:"2° Primaria",level:"primaria",engLevel:"a1",category:["cuento","ingles"],pages:14,emoji:"🐶",desc:"Historias cortas sobre amistad entre animales.",tags:["Animales","Amistad","Lectura fácil"],bookLink:"",activitiesLink:"",image:""},
+  {id:8,title:"Volcanoes and Earthquakes",author:"Andrés Moreno - 3° Bachillerato",grade:"11°",level:"bachillerato",engLevel:"b2",category:["ciencia"],pages:22,emoji:"🌋",desc:"Explicación científica de fenómenos naturales en inglés.",tags:["Ciencia","Naturaleza","Técnico"],bookLink:"",activitiesLink:"",image:""},
+  {id:9,title:"My Family Album",author:"Camila Torres - 1° Primaria",grade:"1° Primaria",level:"primaria",engLevel:"a1",category:["ingles"],pages:8,emoji:"👨‍👩‍👧‍👦",desc:"Libro para aprender los miembros de la familia en inglés.",tags:["Familia","Vocabulario","Primeros pasos"],bookLink:"",activitiesLink:"",image:""},
+  {id:10,title:"Travel Around the World",author:"Sebastián Ríos - 2° Bachillerato",grade:"10°",level:"bachillerato",engLevel:"b1",category:["aventura","ingles"],pages:26,emoji:"✈️",desc:"Un viaje virtual por diferentes países.",tags:["Viajes","Cultura","Geografía"],isNew:true,bookLink:"",activitiesLink:"",image:""},
+  {id:11,title:"Math in English",author:"Isabella Vargas - 3° Bachillerato",grade:"11°",level:"bachillerato",engLevel:"b2",category:["ciencia","ingles"],pages:16,emoji:"🔢",desc:"Problemas matemáticos resueltos en inglés.",tags:["Matemáticas","Ejercicios","Bilingüe"],bookLink:"",activitiesLink:"",image:""},
+  {id:12,title:"The Little Tree",author:"Daniela Ramos - 3° Primaria",grade:"3° Primaria",level:"primaria",engLevel:"a1",category:["cuento"],pages:15,emoji:"🌳",desc:"Un árbol pequeño que quiere crecer y conocer el mundo.",tags:["Naturaleza","Moraleja","Ilustrado"],bookLink:"",activitiesLink:"",image:""}
+];
 
-// ═══════════════════════════════════════════
-// ESTADO
-// ═══════════════════════════════════════════
-let books = [];
-let currentImageUrl = '';
-let deleteId = null;
+let books = [], deleteId = null;
+let categories = [
+  {value: 'cuento', label: '📝 Cuentos'},
+  {value: 'ciencia', label: '🔬 Ciencia'},
+  {value: 'historia', label: '🏛️ Historia'},
+  {value: 'ingles', label: '🇬🇧 Inglés'},
+  {value: 'aventura', label: '🗺️ Aventura'}
+];
+const $ = s => document.getElementById(s);
 
-// ═══════════════════════════════════════════
-// INICIALIZACIÓN
-// ═══════════════════════════════════════════
-async function init() {
-    await loadBooks();
-    renderBookList();
-    renderStats();
+/* Acceso con contraseña (protección básica del panel) — cookie persistente 1 año */
+(function initLock() {
+  const PASS = '@Ayni1984';
+  const COOKIE_NAME = 'ayni_admin_auth';
+  const lock = $('lockScreen'), input = $('lockInput'), btn = $('lockBtn'), err = $('lockError'), toggle = $('togglePass');
+
+  function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  function setCookie(name, value, days) {
+    const d = new Date(); d.setTime(d.getTime() + days * 864e5);
+    document.cookie = name + '=' + value + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  if (getCookie(COOKIE_NAME) === '1') { lock.classList.add('lock--hidden'); return; }
+  const close = () => { setCookie(COOKIE_NAME, '1', 365); lock.classList.add('lock--hidden'); };
+  const attempt = () => {
+    if (input.value.trim() === PASS) close();
+    else { err.textContent = 'Contraseña incorrecta'; input.value = ''; input.focus(); }
+  };
+  btn.addEventListener('click', attempt);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
+  // Toggle show/hide password
+  toggle.addEventListener('click', () => {
+    const isPwd = input.type === 'password';
+    input.type = isPwd ? 'text' : 'password';
+    toggle.textContent = isPwd ? '🙈' : '👁️';
+    input.focus();
+  });
+  setTimeout(() => input.focus(), 100);
+})();
+
+function toast(msg, type = 'success') {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type === 'error' ? ' toast--error' : type === 'warning' ? ' toast--warning' : '');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function initTheme() {
+  const saved = localStorage.getItem('ayni_theme');
+  const dark = saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches);
+  if (dark) { document.documentElement.setAttribute('data-theme', 'dark'); $('themeToggle').textContent = '☀️'; }
+}
+
+function toggleTheme() {
+  const dark = document.documentElement.hasAttribute('data-theme');
+  document.documentElement[dark ? 'removeAttribute' : 'setAttribute']('data-theme', dark ? '' : 'dark');
+  localStorage.setItem('ayni_theme', dark ? 'light' : 'dark');
+  $('themeToggle').textContent = dark ? '🌙' : '☀️';
 }
 
 async function loadBooks() {
-    if (API_CONFIG.url && API_CONFIG.key) {
-        try {
-            const response = await fetch(API_CONFIG.url + '/latest', {
-                headers: { 'X-Master-Key': API_CONFIG.key }
-            });
-            const data = await response.json();
-            books = data.record.books || [...defaultBooks];
-            return;
-        } catch(e) {
-            console.warn('Error cargando desde API:', e);
+  // Fuente principal: nube (lo último publicado desde el admin)
+  if (CFG.api.url) {
+    try {
+      const c = new AbortController();
+      const t = setTimeout(() => c.abort(), 6000);
+      const r = await fetch(CFG.api.url + '/latest?_=' + Date.now(), { headers: { 'X-Master-Key': CFG.api.key }, signal: c.signal });
+      clearTimeout(t);
+      if (r.ok) {
+        const d = await r.json();
+        if (Array.isArray(d.record?.books)) {
+          books = d.record.books;
+          localStorage.setItem('ayni_books', JSON.stringify(books));
+          return;
         }
-    }
-    // Fallback: usar localStorage
-    const saved = localStorage.getItem('ayni_books');
-    if (saved) {
-        books = JSON.parse(saved);
-    } else {
-        books = [...defaultBooks];
-        saveToLocal();
-    }
+      }
+    } catch { console.warn('API no disponible'); }
+  }
+  // Respaldo local
+  try { books = JSON.parse(localStorage.getItem('ayni_books')) || [...BOOKS]; } catch { books = [...BOOKS]; }
 }
 
 async function saveToStorage() {
-    // Guardar en localStorage siempre (como backup)
-    localStorage.setItem('ayni_books', JSON.stringify(books));
-
-    // Si hay API configurada, guardar también ahí
-    if (API_CONFIG.url && API_CONFIG.key) {
-        try {
-            await fetch(API_CONFIG.url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': API_CONFIG.key
-                },
-                body: JSON.stringify({ books: books })
-            });
-            showToast('✅ Guardado en la nube');
-        } catch(e) {
-            console.warn('Error guardando en API:', e);
-            showToast('⚠️ Guardado solo localmente');
-        }
-    }
+  localStorage.setItem('ayni_books', JSON.stringify(books));
+  if (!CFG.api.url) { toast('💾 Guardado localmente', 'warning'); return; }
+  try {
+    const r = await fetch(CFG.api.url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': CFG.api.key },
+      body: JSON.stringify({ books })
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    toast('☁️ Publicado: ya se ve en el sitio');
+  } catch (e) {
+    console.error(e);
+    toast('⚠️ No se pudo publicar. Revisa tu conexión', 'error');
+  }
 }
 
-function saveToLocal() {
-    localStorage.setItem('ayni_books', JSON.stringify(books));
-}
-
-// ═══════════════════════════════════════════
-// SUBIR IMÁGENES A ImgBB
-// ═══════════════════════════════════════════
-function handleImageUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const uploadArea = document.getElementById('imageUpload');
-    const preview = document.getElementById('imagePreview');
-    const hint = document.getElementById('imageHint');
-
-    uploadArea.classList.add('image-upload--loading');
-    preview.innerHTML = '<span class="image-upload__text">Subiendo...</span>';
-
-    const reader = new FileReader();
-    reader.onload = async function(ev) {
-        try {
-            const response = await fetch('https://api.imgbb.com/1/upload?key=' + IMGBB_API_KEY, {
-                method: 'POST',
-                body: new FormData().append('image', ev.target.result.split(',')[1]) || ev.target.result
-            });
-            const data = await response.json();
-            if (data.success) {
-                currentImageUrl = data.data.url;
-                document.getElementById('bookImage').value = currentImageUrl;
-                preview.innerHTML = '<img src="' + currentImageUrl + '" alt="Portada">';
-                hint.style.display = 'block';
-                showToast('✅ Imagen subida');
-            } else {
-                throw new Error('Error al subir');
-            }
-        } catch(err) {
-            preview.innerHTML = '<span class="image-upload__icon">📷</span><span class="image-upload__text">Error, intenta de nuevo</span>';
-            showToast('⚠️ Error al subir imagen');
-        }
-        uploadArea.classList.remove('image-upload--loading');
-    };
-    reader.readAsDataURL(file);
-}
-
-function clickImageUpload() {
-    document.getElementById('imageInput').click();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('imageUpload').addEventListener('click', clickImageUpload);
-});
-
-// ═══════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════
-function renderBookList(filter = '') {
-    const list = document.getElementById('bookList');
-    let filtered = books;
-
-    if (filter) {
-        const s = filter.toLowerCase();
-        filtered = books.filter(b =>
-            b.title.toLowerCase().includes(s) ||
-            b.author.toLowerCase().includes(s) ||
-            b.tags.some(t => t.toLowerCase().includes(s))
-        );
-    }
-
-    document.getElementById('bookCount').textContent = filtered.length;
-
-    if (filtered.length === 0) {
-        list.innerHTML = '<div class="empty"><div class="empty__icon">📭</div><div class="empty__text">No se encontraron libros</div></div>';
-        return;
-    }
-
-    list.innerHTML = filtered.map(b => `
-        <div class="book-item" onclick="editBook(${b.id})">
-            <div class="book-item__emoji level-${b.engLevel}">${b.image ? '<img src="' + b.image + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px">' : b.emoji || '📚'}</div>
-            <div class="book-item__info">
-                <div class="book-item__title">${b.title}</div>
-                <div class="book-item__meta">
-                    <span class="book-item__level level-${b.engLevel}">${b.engLevel.toUpperCase()}</span>
-                    <span>${b.author}</span>
-                    <span>•</span>
-                    <span>${b.pages} págs</span>
-                </div>
-            </div>
-            <div class="book-item__actions">
-                <button class="btn btn--ghost btn--sm" onclick="event.stopPropagation();editBook(${b.id})">✏️</button>
-                <button class="btn btn--danger btn--sm" onclick="event.stopPropagation();openDeleteModal(${b.id})">🗑️</button>
-            </div>
-        </div>
-    `).join('');
+function renderList(filter = '') {
+  const list = $('bookList');
+  let f = filter ? books.filter(b => b.title.toLowerCase().includes(filter) || b.author.toLowerCase().includes(filter) || b.tags?.some(t => t.toLowerCase().includes(filter))) : books;
+  $('bookCount').textContent = f.length;
+  if (!f.length) { list.innerHTML = '<div class="empty"><div class="empty__icon">📭</div><div class="empty__text">No se encontraron libros</div></div>'; return; }
+  list.innerHTML = f.map(b => `<div class="book-item" data-id="${b.id}"><div class="book-item__emoji level-${b.engLevel}">${b.image?`<img src="${b.image}" alt="${b.title}">`:b.emoji||'📚'}</div><div class="book-item__info"><div class="book-item__title">${b.title}</div><div class="book-item__meta"><span class="book-item__level level-${b.engLevel}">${b.engLevel.toUpperCase()}</span><span>${b.author}</span><span>•</span><span>${b.pages} págs</span></div></div><div class="book-item__actions"><button class="btn btn--ghost btn--sm edit-btn" data-id="${b.id}">✏️</button><button class="btn btn--danger btn--sm del-btn" data-id="${b.id}">🗑️</button></div></div>`).join('');
+  list.querySelectorAll('.book-item').forEach(el => el.onclick = () => editBook(+el.dataset.id));
+  list.querySelectorAll('.edit-btn').forEach(btn => { btn.onclick = e => { e.stopPropagation(); editBook(+btn.dataset.id); }; });
+  list.querySelectorAll('.del-btn').forEach(btn => { btn.onclick = e => { e.stopPropagation(); openDeleteModal(+btn.dataset.id); }; });
 }
 
 function renderStats() {
-    const stats = document.getElementById('stats');
-    const total = books.length;
-    const a1 = books.filter(b => b.engLevel === 'a1').length;
-    const a2 = books.filter(b => b.engLevel === 'a2').length;
-    const b1 = books.filter(b => b.engLevel === 'b1').length;
-    const b2 = books.filter(b => b.engLevel === 'b2').length;
-
-    stats.innerHTML = `
-        <div class="stat-card"><div class="stat-card__value">${total}</div><div class="stat-card__label">Total Libros</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#276749">${a1}</div><div class="stat-card__label">🟢 A1</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#2b6cb0">${a2}</div><div class="stat-card__label">🔵 A2</div></div>
-        <div class="stat-card"><div class="stat-card__value" style="color:#975a16">${b1}</div><div class="stat-card__label">🟡 B1</div></div>
-    `;
+  const total = books.length, a1 = books.filter(b => b.engLevel==='a1').length, a2 = books.filter(b => b.engLevel==='a2').length, b1 = books.filter(b => b.engLevel==='b1').length;
+  $('stats').innerHTML = `<div class="stat-card"><div class="stat-card__value">${total}</div><div class="stat-card__label">Total Libros</div></div><div class="stat-card"><div class="stat-card__value" style="color:#276749">${a1}</div><div class="stat-card__label">🟢 A1</div></div><div class="stat-card"><div class="stat-card__value" style="color:#2b6cb0">${a2}</div><div class="stat-card__label">🔵 A2</div></div><div class="stat-card"><div class="stat-card__value" style="color:#975a16">${b1}</div><div class="stat-card__label">🟡 B1</div></div>`;
 }
 
-function renderEmojiPicker() {
-    const picker = document.getElementById('emojiPicker');
-    picker.innerHTML = emojis.map(e => `
-        <div class="emoji-option ${e === selectedEmoji ? 'selected' : ''}" onclick="selectEmoji('${e}')">${e}</div>
-    `).join('');
-}
-
-// ═══════════════════════════════════════════
-// FORMULARIO
-// ═══════════════════════════════════════════
 async function saveBook(e) {
-    e.preventDefault();
-
-    const id = document.getElementById('bookId').value;
-    const categories = Array.from(document.querySelectorAll('input[name="cat"]:checked')).map(c => c.value);
-
-    if (categories.length === 0) {
-        showToast('⚠️ Selecciona al menos una categoría');
-        return;
-    }
-
-    const bookData = {
-        title: document.getElementById('title').value.trim(),
-        author: document.getElementById('author').value.trim(),
-        grade: document.getElementById('grade').value,
-        engLevel: document.getElementById('engLevel').value,
-        pages: parseInt(document.getElementById('pages').value) || 20,
-        category: categories,
-        desc: document.getElementById('description').value.trim(),
-        tags: document.getElementById('tags').value.split(',').map(t => t.trim()).filter(t => t),
-        image: document.getElementById('bookImage').value || '',
-        isNew: document.getElementById('isNew').checked,
-        level: document.getElementById('grade').value.includes('Primaria') ? 'primaria' : 'bachillerato',
-        bookLink: document.getElementById('bookLink').value.trim(),
-        activitiesLink: document.getElementById('activitiesLink').value.trim()
-    };
-
-    if (id) {
-        // Editar existente
-        const index = books.findIndex(b => b.id === parseInt(id));
-        if (index !== -1) {
-            books[index] = { ...books[index], ...bookData };
-            showToast('✅ Libro actualizado');
-        }
-    } else {
-        // Crear nuevo
-        bookData.id = books.length > 0 ? Math.max(...books.map(b => b.id)) + 1 : 1;
-        books.push(bookData);
-        showToast('✅ Libro creado');
-    }
-
-    await saveToStorage();
-    renderBookList();
-    renderStats();
-    resetForm();
+  e.preventDefault();
+  const id = $('bookId').value;
+  const cats = [...document.querySelectorAll('input[name="cat"]:checked')].map(c => c.value);
+  if (!cats.length) { toast('⚠️ Selecciona al menos una categoría', 'warning'); return; }
+  const data = {
+    title: $('title').value.trim(), author: $('author').value.trim(), grade: $('grade').value, engLevel: $('engLevel').value,
+    pages: parseInt($('pages').value) || 20, category: cats, desc: $('description').value.trim(),
+    tags: $('tags').value.split(',').map(t => t.trim()).filter(Boolean), image: $('bookImage').value || '',
+    isNew: $('isNew').checked, level: $('grade').value.includes('Primaria') ? 'primaria' : 'bachillerato',
+    bookLink: $('bookLink').value.trim(), activitiesLink: $('activitiesLink').value.trim()
+  };
+  if (id) { const i = books.findIndex(b => b.id === +id); if (i !== -1) books[i] = { ...books[i], ...data }; toast('✅ Libro actualizado'); }
+  else { data.id = books.length ? Math.max(...books.map(b => b.id)) + 1 : 1; data.emoji = '📚'; books.push(data); toast('✅ Libro creado'); }
+  await saveToStorage(); renderList(); renderStats(); resetForm();
 }
 
 function editBook(id) {
-    const book = books.find(b => b.id === id);
-    if (!book) return;
-
-    document.getElementById('bookId').value = book.id;
-    document.getElementById('title').value = book.title;
-    document.getElementById('author').value = book.author;
-    document.getElementById('grade').value = book.grade;
-    document.getElementById('engLevel').value = book.engLevel;
-    document.getElementById('pages').value = book.pages;
-    document.getElementById('description').value = book.desc;
-    document.getElementById('tags').value = book.tags.join(', ');
-    document.getElementById('isNew').checked = book.isNew;
-    document.getElementById('bookLink').value = book.bookLink || '';
-    document.getElementById('activitiesLink').value = book.activitiesLink || '';
-
-    // Categorías
-    document.querySelectorAll('input[name="cat"]').forEach(c => {
-        c.checked = book.category.includes(c.value);
-    });
-
-    // Emoji
-    selectedEmoji = book.emoji;
-    renderEmojiPicker();
-
-    // UI
-    document.getElementById('formTitle').textContent = '✏️ Editar Libro';
-    document.getElementById('submitBtn').textContent = '💾 Actualizar';
-    document.getElementById('cancelBtn').style.display = 'block';
-
-    // Scroll al formulario en móvil
-    if (window.innerWidth <= 900) {
-        document.querySelector('.panel').scrollIntoView({ behavior: 'smooth' });
-    }
+  const b = books.find(x => x.id === id); if (!b) return;
+  $('bookId').value = b.id; $('title').value = b.title; $('author').value = b.author; $('grade').value = b.grade;
+  $('engLevel').value = b.engLevel; $('pages').value = b.pages; $('description').value = b.desc;
+  $('tags').value = (b.tags||[]).join(', '); $('isNew').checked = b.isNew; $('bookLink').value = b.bookLink||'';
+  $('activitiesLink').value = b.activitiesLink||'';
+  document.querySelectorAll('input[name="cat"]').forEach(c => c.checked = b.category?.includes(c.value));
+  if (b.image) { $('bookImage').value = b.image; $('imagePreview').innerHTML = `<img src="${b.image}" alt="Portada">`; $('imageHint').style.display = 'block'; }
+  $('formTitle').textContent = '✏️ Editar Libro'; $('submitBtn').textContent = '💾 Actualizar'; $('cancelBtn').style.display = 'block';
+  if (window.innerWidth <= 900) document.querySelector('.panel').scrollIntoView({ behavior: 'smooth' });
 }
 
 function resetForm() {
-    document.getElementById('bookForm').reset();
-    document.getElementById('bookId').value = '';
-    document.getElementById('formTitle').textContent = '➕ Nuevo Libro';
-    document.getElementById('submitBtn').textContent = '💾 Guardar Libro';
-    document.getElementById('cancelBtn').style.display = 'none';
-    selectedEmoji = '📚';
-    renderEmojiPicker();
+  $('bookForm').reset(); $('bookId').value = ''; $('formTitle').textContent = '➕ Nuevo Libro';
+  $('submitBtn').textContent = '💾 Guardar Libro'; $('cancelBtn').style.display = 'none';
+  $('bookImage').value = ''; $('imagePreview').innerHTML = '<span class="image-upload__icon">📷</span><span class="image-upload__text">Haz clic para subir imagen</span>';
+  $('imageHint').style.display = 'none';
 }
 
-function selectEmoji(emoji) {
-    selectedEmoji = emoji;
-    renderEmojiPicker();
+function openDeleteModal(id) { deleteId = id; $('deleteModal').classList.add('active'); }
+function closeDeleteModal() { deleteId = null; $('deleteModal').classList.remove('active'); }
+
+async function confirmDelete() {
+  if (deleteId === null) return;
+  books = books.filter(b => b.id !== deleteId);
+  await saveToStorage(); renderList(); renderStats(); toast('🗑️ Libro eliminado'); closeDeleteModal();
+  if ($('bookId').value == deleteId) resetForm();
 }
 
-// ═══════════════════════════════════════════
-// ELIMINAR
-// ═══════════════════════════════════════════
-function openDeleteModal(id) {
-    deleteId = id;
-    document.getElementById('deleteModal').classList.add('active');
-}
+function handleImageUpload(e) {
+  const file = e.target.files[0]; if (!file) return;
+  if (file.size > 10*1024*1024) { toast('⚠️ La imagen no puede superar 10MB', 'warning'); return; }
+  if (!file.type.startsWith('image/')) { toast('⚠️ El archivo debe ser una imagen', 'warning'); return; }
+  const area = $('imageUpload'), preview = $('imagePreview'), hint = $('imageHint');
+  area.classList.add('image-upload--loading'); preview.innerHTML = '<span class="image-upload__text">Procesando imagen...</span>';
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = async () => {
+      try {
+        // Redimensiona y comprime antes de subir
+        const MAX = 700;
+        const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
 
-function closeDeleteModal() {
-    deleteId = null;
-    document.getElementById('deleteModal').classList.remove('active');
-}
+        const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.82));
+        if (!blob) throw new Error('No se pudo comprimir la imagen');
 
-document.getElementById('confirmDeleteBtn').onclick = async function() {
-    if (deleteId !== null) {
-        books = books.filter(b => b.id !== deleteId);
-        await saveToStorage();
-        renderBookList();
-        renderStats();
-        showToast('🗑️ Libro eliminado');
-        closeDeleteModal();
-
-        // Si estaba editando ese libro, resetear formulario
-        if (document.getElementById('bookId').value == deleteId) {
-            resetForm();
+        // Intentar subir a ImgBB
+        let url = null;
+        let uploadError = null;
+        try {
+          const fd = new FormData();
+          fd.append('image', blob, 'portada.jpg');
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 30000);
+          const r = await fetch('https://api.imgbb.com/1/upload?key=' + CFG.imgbb.key, {
+            method: 'POST',
+            body: fd,
+            signal: controller.signal
+          });
+          clearTimeout(timeout);
+          const d = await r.json();
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          if (!d.success || !d.data?.url) throw new Error(d.error?.message || 'ImgBB rechazó la imagen');
+          url = d.data.url;
+          toast('☁️ Imagen subida a la nube');
+        } catch (err) {
+          console.warn('ImgBB falló, usando fallback local:', err);
+          uploadError = err;
+          // Fallback: convertir a data URL (base64) y guardar localmente
+          url = await new Promise(res => canvas.toBlob(b => {
+            const r = new FileReader();
+            r.onload = () => res(r.result);
+            r.readAsDataURL(b);
+          }, 'image/jpeg', 0.82));
+          toast('⚠️ ImgBB no disponible. Imagen guardada localmente (base64)', 'warning');
         }
-    }
-};
 
-// ═══════════════════════════════════════════
-// EXPORTAR / IMPORTAR
-// ═══════════════════════════════════════════
-function exportData() {
-    const data = JSON.stringify(books, null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'ayni_books.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('📥 Datos exportados');
+        $('bookImage').value = url;
+        preview.innerHTML = `<img src="${url}" alt="Portada"><span class="image-upload__hint">${uploadError ? '⚠️ Local (base64)' : '✅ En la nube'} (${Math.round(blob.size/1024)} KB)</span>`;
+        hint.style.display = 'block';
+      } catch (err) {
+        console.error(err);
+        preview.innerHTML = '<span class="image-upload__icon">📷</span><span class="image-upload__text">Error al procesar, intenta de nuevo</span>';
+        toast('⚠️ Error: ' + (err.message || 'No se pudo procesar la imagen'), 'error');
+      } finally {
+        area.classList.remove('image-upload--loading');
+      }
+    };
+    img.onerror = () => {
+      preview.innerHTML = '<span class="image-upload__icon">📷</span><span class="image-upload__text">Formato no válido</span>';
+      toast('⚠️ No se pudo leer la imagen', 'warning');
+      area.classList.remove('image-upload--loading');
+    };
+    img.src = ev.target.result;
+  };
+  reader.onerror = () => {
+    preview.innerHTML = '<span class="image-upload__icon">📷</span><span class="image-upload__text">Error al leer archivo</span>';
+    toast('⚠️ Error al leer el archivo', 'error');
+    area.classList.remove('image-upload--loading');
+  };
+  reader.readAsDataURL(file);
 }
 
-function importData() {
-    document.getElementById('fileInput').click();
+function exportData() {
+  const blob = new Blob([JSON.stringify(books, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'ayni_books_' + new Date().toISOString().split('T')[0] + '.json'; a.click();
+  URL.revokeObjectURL(a.href); toast('📥 Datos exportados');
+}
+
+function renderCategories() {
+  const wrap = $('categoriesList');
+  if (!categories.length) { wrap.innerHTML = '<p style="color:var(--g400);font-size:.8rem;text-align:center">No hay categorías</p>'; return; }
+  wrap.innerHTML = categories.map((c, i) => `
+    <div style="display:flex;align-items:center;gap:.5rem;padding:.5rem;background:var(--g50);border-radius:8px;margin-bottom:.4rem">
+      <input type="text" value="${c.value}" data-idx="${i}" class="cat-value-input" style="flex:1;padding:.4rem .6rem;border:1.5px solid var(--g200);border-radius:6px;font-size:.75rem;font-family:monospace;background:var(--white)">
+      <input type="text" value="${c.label}" data-idx="${i}" class="cat-label-input" style="flex:1;padding:.4rem .6rem;border:1.5px solid var(--g200);border-radius:6px;font-size:.75rem;background:var(--white)">
+      <button class="btn btn--danger btn--sm save-cat-btn" data-idx="${i}" style="padding:.35rem .5rem">💾</button>
+      <button class="btn btn--danger btn--sm del-cat-btn" data-idx="${i}" style="padding:.35rem .5rem">🗑️</button>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.save-cat-btn').forEach(btn => btn.onclick = () => saveCategory(+btn.dataset.idx));
+  wrap.querySelectorAll('.del-cat-btn').forEach(btn => btn.onclick = () => deleteCategory(+btn.dataset.idx));
+}
+
+function saveCategory(idx) {
+  const val = $(`.cat-value-input[data-idx="${idx}"]`).value.trim().toLowerCase();
+  const lab = $(`.cat-label-input[data-idx="${idx}"]`).value.trim();
+  if (!val || !lab) { toast('⚠️ Valor y etiqueta son obligatorios', 'warning'); return; }
+  if (categories.some((c, i) => i !== idx && c.value === val)) { toast('⚠️ Ese valor ya existe', 'warning'); return; }
+  categories[idx] = {value: val, label: lab};
+  localStorage.setItem('ayni_categories', JSON.stringify(categories));
+  renderCategories();
+  renderFormCategories();
+  toast('✅ Categoría actualizada');
+}
+
+function deleteCategory(idx) {
+  if (categories.length <= 1) { toast('⚠️ Debe haber al menos una categoría', 'warning'); return; }
+  const val = categories[idx].value;
+  const inUse = books.some(b => b.category?.includes(val));
+  if (inUse) { toast('⚠️ Categoría en uso por algún libro', 'warning'); return; }
+  categories.splice(idx, 1);
+  localStorage.setItem('ayni_categories', JSON.stringify(categories));
+  renderCategories();
+  renderFormCategories();
+  toast('🗑️ Categoría eliminada');
+}
+
+function addCategory() {
+  const val = $('newCategoryInput').value.trim().toLowerCase();
+  const lab = $('newCategoryLabelInput').value.trim();
+  if (!val || !lab) { toast('⚠️ Valor y etiqueta son obligatorios', 'warning'); return; }
+  if (categories.some(c => c.value === val)) { toast('⚠️ Ese valor ya existe', 'warning'); return; }
+  categories.push({value: val, label: lab});
+  localStorage.setItem('ayni_categories', JSON.stringify(categories));
+  renderCategories();
+  renderFormCategories();
+  $('newCategoryInput').value = ''; $('newCategoryLabelInput').value = '';
+  toast('✅ Categoría añadida');
+}
+
+function renderFormCategories() {
+  const wrap = document.querySelector('.checkbox-group');
+  if (!wrap) return;
+  wrap.innerHTML = categories.map(c => `
+    <label class="checkbox-label"><input type="checkbox" name="cat" value="${c.value}"> ${c.label}</label>
+  `).join('');
+}
+
+function loadCategories() {
+  try {
+    const saved = localStorage.getItem('ayni_categories');
+    if (saved) categories = JSON.parse(saved);
+  } catch { }
+  renderFormCategories();
 }
 
 function handleImport(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async function(ev) {
-        try {
-            const imported = JSON.parse(ev.target.result);
-            if (Array.isArray(imported)) {
-                books = imported;
-                await saveToStorage();
-                renderBookList();
-                renderStats();
-                showToast('📤 Datos importados correctamente');
-            } else {
-                showToast('⚠️ Formato de archivo inválido');
-            }
-        } catch (err) {
-            showToast('⚠️ Error al leer el archivo');
-        }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async ev => {
+    try {
+      const imported = JSON.parse(ev.target.result);
+      if (Array.isArray(imported)) { books = imported; await saveToStorage(); renderList(); renderStats(); toast('📤 Datos importados correctamente'); }
+      else toast('⚠️ Formato de archivo inválido', 'warning');
+    } catch { toast('⚠️ Error al leer el archivo', 'warning'); }
+  };
+  reader.readAsText(file); e.target.value = '';
 }
 
-// ═══════════════════════════════════════════
-// UTILIDADES
-// ═══════════════════════════════════════════
-function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2500);
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  loadBooks().then(() => { renderList(); renderStats(); });
+  loadCategories();
+  $('themeToggle').onclick = toggleTheme;
+  $('searchInput').oninput = function() { renderList(this.value); };
+  $('bookForm').onsubmit = saveBook;
+  $('cancelBtn').onclick = resetForm;
+  $('confirmDeleteBtn').onclick = confirmDelete;
+  $('cancelDeleteBtn').onclick = closeDeleteModal;
+  $('exportBtn').onclick = exportData;
+  $('importBtn').onclick = () => $('fileInput').click();
+  $('fileInput').onchange = handleImport;
+  $('imageUpload').onclick = () => $('imageInput').click();
+  $('imageInput').onchange = handleImageUpload;
+  $('categoriesBtn').onclick = () => { renderCategories(); $('categoriesModal').classList.add('active'); };
+  $('categoriesCloseBtn').onclick = () => $('categoriesModal').classList.remove('active');
+  $('cancelCategoriesBtn').onclick = () => $('categoriesModal').classList.remove('active');
+  $('addCategoryBtn').onclick = addCategory;
+  $('categoriesModal').onclick = e => { if (e.target === e.currentTarget) $('categoriesModal').classList.remove('active'); };
+  document.onkeydown = e => { if (e.key === 'Escape') { closeDeleteModal(); $('categoriesModal').classList.remove('active'); } };
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    reg.onupdatefound = () => { const sw = reg.installing; sw.onstatechange = () => { if (sw.state === 'activated') location.reload(); }; };
+  }).catch(() => {});
 }
-
-// Búsqueda en tiempo real
-document.getElementById('searchInput').addEventListener('input', function() {
-    renderBookList(this.value);
-});
-
-// Cerrar modal con Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeDeleteModal();
-});
-
-// Iniciar
-init();
 </script>
-
 </body>
 </html>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="153a7b56-1831-46d8-8867-7897bf54a3ec" data-app-host="app.netlify.com" data-account-tier="free"></script>

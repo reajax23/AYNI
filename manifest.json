@@ -1,0 +1,17 @@
+{
+  "name": "AYNI English Library",
+  "short_name": "AYNI",
+  "description": "Biblioteca digital de libros didácticos en inglés - IE Nuestra Señora del Pilar",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#faf9f6",
+  "theme_color": "#5a8f7b",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "categories": ["education", "books"],
+  "lang": "es",
+  "dir": "ltr"
+}
