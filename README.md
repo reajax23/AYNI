@@ -17,7 +17,7 @@ AYNI/
 
 ## Publicar un libro (automático)
 
-1. Abre `admin.html` e introduce la contraseña `0000`.
+1. Abre `admin.html` e introduce la contraseña `####`.
 2. Crea o edita el libro y sube su portada.
 3. Pulsa **Guardar Libro**.
 
