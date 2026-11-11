@@ -167,6 +167,10 @@
     .footer{background:var(--green-dark);color:rgba(255,255,255,.7);text-align:center;padding:2rem 1.5rem;margin-top:2rem}
     .footer__brand{font-family:'Quicksand',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);margin-bottom:.5rem}
     .footer p{font-size:.8rem;line-height:1.6}
+    .footer__visits{font-size:.7rem;color:rgba(255,255,255,.55);margin:.5rem 0 0;letter-spacing:.05em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .7rem;border-radius:50px;background:rgba(255,255,255,.06);border:1px solid rgba(196,163,90,.2);transition:all .3s ease}
+    .footer__visits:hover{background:rgba(196,163,90,.15);border-color:rgba(196,163,90,.4);color:var(--gold)}
+    .footer__visits #visitCount{color:var(--gold-light);font-weight:700;font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+    @keyframes countPop{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
     .copyright{cursor:pointer;font-size:.75rem;color:rgba(255,255,255,.5);margin-top:1rem;transition:color .2s;user-select:none}
     .copyright:hover{color:var(--gold)}
     .copyright-dropdown{display:none;background:var(--green-dark);color:rgba(255,255,255,.8);padding:1rem 1.5rem;text-align:left;font-size:.7rem;line-height:1.8;border-top:1px solid rgba(196,163,90,.2)}
@@ -352,6 +356,7 @@
 <footer class="footer">
   <div class="footer__brand"><img src="logo.png" alt="AYNI" style="height:30px;vertical-align:middle;margin-right:.5rem">AYNI English Library</div>
   <p data-i18n="footer_text">Nuestra Señora del Pilar School — Bucaramanga, Colombia<br>Historias de estudiantes para estudiantes</p>
+  <p class="footer__visits" id="footerVisits"><span data-i18n="visits_label">Visitas</span>: <span id="visitCount">—</span></p>
   <div class="copyright" id="copyrightTrigger">© 2026 Ayni English Library. Todos los derechos reservados.</div>
   <div class="copyright-dropdown" id="copyrightDropdown">
     <p>© 2026 Ayni English Library. Todos los derechos reservados.</p>
@@ -449,7 +454,8 @@ const I18N = {
     grade:"Grado:",grade_all:"Todos",grade_primary:"Primaria",grade_high:"Bachillerato",
     book_catalog:"Catálogo de Libros",no_books:"No se encontraron libros",no_books_sub:"Intenta con otra búsqueda o filtro",
     btn_open_book:"📖 Abrir Libro",btn_open_activities:"✏️ Abrir Actividades",
-    footer_text:"Project Leader: Jenny Alvarado<br>E-mail: aynienglishlibrary@gmail.com",
+    footer_text:"Project Leader: Jenny Alvarado<br>E-mail: aynienglishlibrary@gmail.com<br>Bucaramanga - Santander",
+    visits_label:"Visitas",
     about_project:"Sobre el Proyecto",tab_what:"📖 ¿Qué es?",tab_mission:"🎯 Misión",tab_vision:"🌟 Visión",tab_how:"💡 Cómo funciona",tab_teachers:"👩‍🏫 Espacio Docentes",
     what_title:"¿Qué es AYNI?",what_text:"AYNI English Library es una biblioteca digital educativa que reúne historias originales escritas por estudiantes en inglés, para ser leídas y disfrutadas por otros estudiantes. A través de la lectura, la creatividad y las herramientas digitales, AYNI promueve el aprendizaje del inglés, da voz a los jóvenes escritores y fomenta valores como la empatía, el respeto y la construcción de una cultura de paz.",
     mission_title:"Misión",mission_text:"Promover el aprendizaje del inglés, la lectura y la escritura creativa mediante una biblioteca digital de historias originales creadas por estudiantes y dirigidas a otros estudiantes. AYNI integra el acompañamiento pedagógico, las herramientas digitales y la inteligencia artificial como apoyo al proceso de escritura y creación, fortaleciendo la voz de los estudiantes, sus competencias comunicativas y digitales, la empatía y la construcción de una cultura de paz.",
@@ -468,7 +474,8 @@ const I18N = {
     grade:"Grade:",grade_all:"All",grade_primary:"Primary",grade_high:"High School",
     book_catalog:"Book Catalog",no_books:"No books found",no_books_sub:"Try another search or filter",
     btn_open_book:"📖 Open Book",btn_open_activities:"✏️ Open Activities",
-    footer_text:"Project Leader: Jenny Alvarado<br>E-mail: aynienglishlibrary@gmail.com",
+    footer_text:"Project Leader: Jenny Alvarado<br>E-mail: aynienglishlibrary@gmail.com<br>Bucaramanga - Santander",
+    visits_label:"Visits",
     about_project:"About the Project",tab_what:"📖 What is it?",tab_mission:"🎯 Mission",tab_vision:"🌟 Vision",tab_how:"💡 How it works",tab_teachers:"👩‍🏫 Teachers' Corner",
     what_title:"What is AYNI?",what_text:"AYNI English Library is an educational digital library featuring original stories written by students in English for other students to read and enjoy. Through reading, creativity, and digital tools, AYNI promotes English language learning, empowers young writers, and encourages values such as empathy, respect, and a culture of peace.",
     mission_title:"Mission",mission_text:"To promote English language learning, reading, and creative writing through a digital library of original stories created by students for other students. AYNI integrates pedagogical guidance, digital tools, and artificial intelligence to support the writing and creative process, empowering student voices while developing communication and digital skills, empathy, and a culture of peace.",
@@ -532,6 +539,63 @@ function setLang(l) {
   document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.dataset.i18n; if (I18N[l][k]) el.innerHTML = I18N[l][k]; });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => { const k = el.dataset.i18nPlaceholder; if (I18N[l][k]) el.placeholder = I18N[l][k]; });
   renderBooks();
+}
+
+async function fetchVisitCount() {
+  const countEl = document.getElementById('visitCount');
+  if (!countEl) return;
+
+  countEl.textContent = '...';
+  countEl.style.opacity = '0.5';
+
+  // Use Netlify Function (works on Netlify, falls back gracefully)
+  try {
+    const res = await fetch('/.netlify/functions/visit-count');
+    console.log('Visit count response:', res.status, res.statusText);
+    if (res.ok) {
+      const data = await res.json();
+      console.log('Visit count data:', data);
+      countEl.textContent = data.count.toLocaleString();
+      countEl.style.opacity = '1';
+      countEl.style.animation = 'countPop 0.4s cubic-bezier(.34,1.56,.64,1)';
+      if (data.source) countEl.title = `Fuente: ${data.source}`;
+      return;
+    } else {
+      const err = await res.json().catch(() => ({}));
+      console.warn('Netlify function error:', err);
+    }
+  } catch (e) {
+    console.debug('Netlify visit-count function unavailable:', e);
+  }
+
+  // Fallback: try countapi.xyz (external API)
+  try {
+    const res = await fetch('https://api.countapi.xyz/hit/ayni-english-library/visits', { mode: 'cors' });
+    if (res.ok) {
+      const data = await res.json();
+      countEl.textContent = data.value.toLocaleString();
+      countEl.style.opacity = '1';
+      countEl.style.animation = 'countPop 0.4s cubic-bezier(.34,1.56,.64,1)';
+      countEl.title = 'Fuente: countapi.xyz';
+      return;
+    }
+  } catch (e) {
+    console.debug('countapi.xyz failed:', e);
+  }
+
+  // Final fallback: localStorage per-user counter
+  try {
+    let localCount = parseInt(localStorage.getItem('ayni_local_visits') || '0', 10);
+    localCount++;
+    localStorage.setItem('ayni_local_visits', String(localCount));
+    countEl.textContent = localCount.toLocaleString() + ' (local)';
+    countEl.style.opacity = '1';
+    countEl.style.animation = 'countPop 0.4s cubic-bezier(.34,1.56,.64,1)';
+    countEl.title = 'Fuente: localStorage (solo tu navegador)';
+  } catch {
+    countEl.textContent = '—';
+    countEl.style.opacity = '0.5';
+  }
 }
 
 async function fetchCloudBooks() {
@@ -724,6 +788,7 @@ function renderCategoryButtons() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme(); setLang(lang); renderCategoryButtons(); loadBooks();
+  fetchVisitCount();
   $('langToggle').onclick = () => setLang(lang === 'es' ? 'en' : 'es');
   $('themeToggle').onclick = toggleTheme;
   document.querySelectorAll('.cat-btn').forEach(btn => btn.onclick = () => {
@@ -756,12 +821,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => { if (!e.target.closest('.copyright') && !$('copyrightDropdown').classList.contains('show')) return; if (!e.target.closest('.copyright')) $('copyrightDropdown').classList.remove('show'); });
   document.onkeydown = e => { if (e.key==='Escape') { closeInfo(); closeModal(); $('copyrightDropdown').classList.remove('show'); } };
 });
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(reg => {
-    reg.onupdatefound = () => { const sw = reg.installing; sw.onstatechange = () => { if (sw.state === 'activated') location.reload(); }; };
-  }).catch(() => {});
-}
 </script>
 </body>
 </html>
